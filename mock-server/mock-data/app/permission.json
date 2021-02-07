@@ -1,0 +1,22 @@
+{
+  "注释": "权限列表数据",
+  "username": "admin",
+  "pk": 113,
+  "is_success": true,
+  "perms": [
+    "srm.route_optool",
+    "srm.route_exception-handle",
+    "srm.route_eh_outstock",
+    "srm.route_eh_sign",
+    "srm.route_example",
+    "dashBoard",
+    "dataBase",
+    "system",
+    "system.catalog",
+    "system.dataConnect",
+    "system.connect",
+    "system.dataset",
+    "menu.roleManage",
+    "module.adminButton"
+  ]
+}

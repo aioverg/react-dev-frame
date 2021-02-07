@@ -1,0 +1,12 @@
+{
+  "errorMessages": [],
+  "data": {
+    "id": 1,
+    "username": "admin",
+    "name": "admin",
+    "token": "456789"
+  },
+  "code": 200,
+  "success": true,
+  "firstErrorMessage": null
+}
