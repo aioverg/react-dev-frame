@@ -30,7 +30,7 @@ class Login extends PureComponent {
     })
   }
   handleInputChange = (e) => {
-    const target = event.target
+    const target = e.target
     const value = target.value
     const name = target.name
     this.setState({
