@@ -1,13 +1,9 @@
 import React, { PureComponent } from 'react'
 import { Layout, Avatar, Popover } from 'antd'
 import styles from './HeaderOne.less'
-import Connect from '@components/hoc/Connect'
-import { injectIntl } from 'react-intl'
 import {Link} from 'react-router-dom'
-
-import { translateText } from '@utils/translate'
-import avatarImg from '@assets/img/avatar.jpeg'
 import { logout } from '@utils/handleLogin'
+import router from '@src/router/router.data'
 
 
 class Header extends PureComponent {
@@ -41,8 +37,6 @@ class Header extends PureComponent {
 
   render () {
     const username = sessionStorage.getItem('username')
-    const { collapsed, menuList, language, languages } = this.props
-    const currentLanguage = languages.find(item => item.key === language)
     return (
       <Layout.Header className={styles.header}>
         {/* logo */}
@@ -54,7 +48,7 @@ class Header extends PureComponent {
 
         {/* 菜单 */}
         <div className={styles.menu}>
-          {menuList.map(item => {
+          {router.map(item => {
             return (
               <div className={styles.menuItem} key={item.path}>
               <Link to={item.path}>
@@ -80,4 +74,4 @@ class Header extends PureComponent {
   }
 }
 
-export default Connect(injectIntl(Header), ({ app }) => (app))
+export default Header

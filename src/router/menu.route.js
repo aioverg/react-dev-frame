@@ -9,14 +9,10 @@ import router from './router'
  * @param menuList // 用户菜单列表
  * @param permList // 用户权限列表
  */
-export function generateRoute (menuList = [], permList = null) { // 生产路由
-  // 防止修改原数组
-  const menuListTmp = cloneDeep(menuList)
+
+export function generateRoute ( permList = null) { // 生产路由
   // 已生成有效的路由(菜单有，路由不一定有效，如包含二级菜单的一级菜单)
   const existRoute = {}
-  // 若有自定义重定向的需要重新生成
-  const redirectsTemp = []
-
   // 生成路由routes
   const routes = router.map(item => {
     const { name, routeProps, permKey, transKey = '' } = item || {}
@@ -39,40 +35,7 @@ export function generateRoute (menuList = [], permList = null) { // 生产路由
       console.error(`警告：【${name}】路由无效！routeProps，routeProps.path不能为空！`)
     }
   })
-  return { routes}
+  console.log('-------------', routes)
+  return { routes }
 }
 
-
-/**
- * 过滤无效菜单
- * @param {*} key
- * @param {*} menuList
- */
-// 过滤本地路由，去掉无用的路由
-export function getValidMenuList (key = 'path', menuList = []) {
-  console.log('menuList', menuList)
-  const newMenuList = cloneDeep(menuList)
-  // 已存在的菜单
-  const existMenu = {}
-  const filterrouter = (item) => {
-    // 根据菜单path值判断是否拥有相同菜单
-    const { children, name, path } = item || {}
-    const id = item ? item[key] : ''
-    const valid = !existMenu[id]
-    valid && id && (existMenu[id] = item)
-    // 校验子菜单
-    if (Array.isArray(children) && children.length) {
-      // tips:这里会改变原数组
-      item.children = children.filter(filterrouter)
-    }
-    if (id) {
-      if (!valid) {
-        const m = existMenu[id]
-        console.error(`警告：【${name}-${path}】路由无效！已存在相同的路径菜单【${m.name}-${m.path}】，请在router.js中重置path！`)
-      }
-    }
-    return valid
-  }
-
-  return newMenuList.filter(filterrouter)
-}

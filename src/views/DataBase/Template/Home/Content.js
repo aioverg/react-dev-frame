@@ -7,7 +7,6 @@ import Revelance from './Revelance'
 import { IconSvg } from '@src/components/iconFont'
 import Consanguinity from './Consanguinity'
 import styled from 'styled-components'
-import { cancel } from 'redux-saga/effects'
 
 const TableNameBox = styled.div`
   height: 50px;

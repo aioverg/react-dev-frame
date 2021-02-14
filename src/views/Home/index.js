@@ -1,13 +1,11 @@
 import React, { PureComponent, Fragment, lazy, Suspense } from 'react'
-import { Switch, Redirect, withRouter } from 'react-router-dom'
+import { Switch, withRouter } from 'react-router-dom'
 import { Layout } from 'antd'
 import HeaderOne from '@src/components/layout/Header/HeaderOne'
 import Footer from '@src/components/layout/Footer/Footer'
 import styles from './index.less'
 import { generateRoute } from '@router/menu.route'
 import { getCookie } from '@utils/handleCookie'
-import { setAxiosToken } from '@utils/handleAxios'
-import { toLoginPage } from '@utils/handleLogin'
 import Connect from '@components/hoc/Connect'
 
 /**
@@ -16,7 +14,7 @@ import Connect from '@components/hoc/Connect'
 class Home extends PureComponent {
   constructor(props) {
     super(props)
-    const { routes } = generateRoute()
+    const {routes}  = generateRoute()
     this.state = {
       collapsed: false,
       routes
@@ -28,25 +26,25 @@ class Home extends PureComponent {
     const { dispatch, isNeedPermission } = this.props
     const token = getCookie('feiu_token')
     console.log('设置缓存', token)
-    if (token) {
-      setAxiosToken(token) // 为 axios 的请求加上token
-      if (isNeedPermission) {// 需要菜单和路由权限
-        // 获取用户权限列表
-        dispatch({
-          type: 'app/get/permission',
-          payload: {
-            token
-          }
-        })
-      } else {// 不需要菜单和路由权限
-        dispatch({
-          type: 'app/get/router',
-        })
-      }
-    } else {
-      // 转跳登陆页面
-      toLoginPage()
-    }
+    // if (token) {
+    //   setAxiosToken(token) // 为 axios 的请求加上token
+    //   if (isNeedPermission) {// 需要菜单和路由权限
+    //     // 获取用户权限列表
+    //     dispatch({
+    //       type: 'app/get/permission',
+    //       payload: {
+    //         token
+    //       }
+    //     })
+    //   } else {// 不需要菜单和路由权限
+    //     dispatch({
+    //       type: 'app/get/router',
+    //     })
+    //   }
+    // } else {
+    //   // 转跳登陆页面
+    //   toLoginPage()
+    // }
   }
 
 

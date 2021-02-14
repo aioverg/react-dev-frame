@@ -4,7 +4,7 @@
  * permKey：表示权限Key值，true表示所有用户都有权限
  * transKey：表示翻译文本对应的key
  */
-export const router = [
+const router = [
   {
     name: '首页',
     transKey: 'Catalog',
@@ -80,3 +80,5 @@ export const router = [
     ]
   }
 ]
+
+export default router
