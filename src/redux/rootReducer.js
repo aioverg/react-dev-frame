@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { handleActions } from 'redux-actions'
+import permissions from "./reducers/permissions"
 
 // 用于缓存所有reducer（即state）
 const reducer = {}
@@ -21,6 +22,7 @@ models.keys().map(path => {
 
 const rootReducer = combineReducers({
   ...reducer,
+  permissions
 })
 
 export default rootReducer
