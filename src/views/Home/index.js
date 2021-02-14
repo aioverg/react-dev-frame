@@ -4,20 +4,18 @@ import { Layout } from 'antd'
 import HeaderOne from '@src/components/layout/Header/HeaderOne'
 import Footer from '@src/components/layout/Footer/Footer'
 import styles from './index.less'
-import { generateRoute } from '@router/menu.route'
 import { getCookie } from '@utils/handleCookie'
 import Connect from '@components/hoc/Connect'
-
+import router, {RouteWithSubRoutes} from '@src/router/router'
 /**
  * app主页面布局
  */
 class Home extends PureComponent {
   constructor(props) {
     super(props)
-    const {routes}  = generateRoute()
     this.state = {
       collapsed: false,
-      routes
+      routes: []
     }
   }
 
@@ -77,7 +75,9 @@ class Home extends PureComponent {
             <Suspense fallback={<div>Loading...</div>}>
               <Fragment>
                 <Switch>
-                  {routes}
+                  {router.map(item => {
+                    return(<RouteWithSubRoutes key={item.name} {...item} />)
+                  })}
                 </Switch>
               </Fragment>
             </Suspense>

@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react'
 import { connect } from "react-redux"
 import { Menu } from 'antd'
-import {Link, Switch, Route} from 'react-router-dom'
-import { generateRoute } from '@router/menu.route'
-
+import {Link, Switch} from 'react-router-dom'
+import {RouteWithSubRoutes} from '@src/router/router'
 
 const mapStateToProps = state => {
   return state
@@ -12,28 +11,54 @@ const mapStateToProps = state => {
 class System extends PureComponent {
   constructor(props){
     super(props)
-    const { routes, existRoute, redirects } = generateRoute()
     this.state = {
       menuList: {},
         collapsed: false,
-        routes,
-        existRoute,
-        redirects,
+        routes: []
     }
   }
   componentDidMount(){
     const {permissions} = this.props
     const path = window.location.hash.replace('#', '')
-    const menuList = permissions.existMenu.find(res => {
-      return res.path == path
-    })
+    const menuList = permissions
     this.setState({
       menuList: menuList
     })
     
   }
   menuTem = () => {
-    const {menuList} = this.state
+    const menuList ={ children:[
+      {
+        name: '目录管理',
+        path: '/app/system/catalog',
+        icon: 'box-plot',
+        permKey: 'system.catalog',
+        children: []
+      },
+      {
+        name: '数据连接',
+        path: '/app/system/dataConnect',
+        icon: 'box-plot',
+        permKey: 'system.dataConnect',
+        children: [
+          {
+            name: '数据连接管理',
+            path: '/app/system/dataConnect/manage',
+            icon: 'box-plot',
+            permKey: 'system.connect',
+            children: []
+          },
+          {
+            name: '服务器数据集',
+            path: '/app/system/dataConnect/dataset',
+            icon: 'box-plot',
+            permKey: 'system.dataset',
+            children: []
+          },
+        ]
+      }
+    ]
+  }
     console.log('---------', menuList)
     const menuItem = (data) => {
       
@@ -55,20 +80,16 @@ class System extends PureComponent {
     )
   }
   render(){
-    const { collapsed, routes, redirects, existRoute } = this.state
-    console.log('000000000', routes, redirects)
+    const {routes} = this.props
+    console.log('000000000', routes)
     return (
       <div>
         {this.menuTem()}
         <Switch>
-          <Route exact>
-          <h3>Please select a topic.</h3>
-          </Route>
-          <Route path='/app/system/catalog'>
-          <h3>Please select a topic.</h3>
-          </Route>
-          
-      </Switch>
+          {routes.map(item => {
+            return(<RouteWithSubRoutes key={item.name} {...item} />)
+          })}
+        </Switch>
       </div>
     )
   }
