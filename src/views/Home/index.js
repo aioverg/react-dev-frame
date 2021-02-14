@@ -1,9 +1,7 @@
 import React, { PureComponent, Fragment, lazy, Suspense } from 'react'
 import { Switch, Redirect, withRouter } from 'react-router-dom'
 import { Layout } from 'antd'
-import Header from '@src/components/layout/Header/Header'
 import HeaderOne from '@src/components/layout/Header/HeaderOne'
-import Sider from '@src/components/layout/Sider/Sider'
 import Footer from '@src/components/layout/Footer/Footer'
 import styles from './index.less'
 import { generateRoute } from '@router/menu.route'
@@ -12,20 +10,16 @@ import { setAxiosToken } from '@utils/handleAxios'
 import { toLoginPage } from '@utils/handleLogin'
 import Connect from '@components/hoc/Connect'
 
-const { Content } = Layout
-
 /**
  * app主页面布局
  */
 class Home extends PureComponent {
   constructor(props) {
     super(props)
-    const { routes, existRoute, redirects } = generateRoute()
+    const { routes } = generateRoute()
     this.state = {
       collapsed: false,
-      routes,
-      existRoute,
-      redirects,
+      routes
     }
   }
 
@@ -55,47 +49,6 @@ class Home extends PureComponent {
     }
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
-    const { menuList, isNeedPermission } = nextProps
-    if (menuList) {
-      if (isNeedPermission) {// 需要菜单和路由权限
-        // 根据用户权限菜单重新生成路由
-        if (menuList.length != prevState.menuLen) {
-          const permStr = sessionStorage.getItem('permission')
-          console.log('静态', permStr)
-          const permList = permStr ? JSON.parse(permStr) : []
-          const { routes, existRoute, redirects } = generateRoute(menuList, permList)
-          return {
-            routes,
-            existRoute,
-            redirects,
-            menuLen: menuList.length
-          }
-        }
-      } else {// 不需要菜单和路由权限
-        const { routes, existRoute, redirects } = generateRoute(menuList, null)
-        return {
-          routes,
-          existRoute,
-          redirects,
-          menuLen: menuList.length
-        }
-      }
-    }
-    return null
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    if (prevState.menuLen != this.state.menuLen) {
-      const { existRoute } = this.state
-      this.props.dispatch({
-        type: 'app/reset/state',
-        payload: {
-          existRoute
-        }
-      })
-    }
-  }
 
   goToPage = (path) => {
     const { history } = this.props
@@ -109,30 +62,28 @@ class Home extends PureComponent {
   }
 
   render () {
-    const { collapsed, routes, redirects, existRoute } = this.state
+    const { collapsed, routes } = this.state
     const { history, match, menuList } = this.props
     const siderProps = {
       collapsed,
       history,
-      existRoute,
       menuList
     }
-
+    console.log('routes-----', routes)
+    console.log('match-----', match)
     return (
       <Layout className={styles.app}>
         <HeaderOne {...siderProps} collapsed={collapsed} history={history} toggle={this.toggle} />
         <Layout>
-          <Content className={styles.content}>
+          <Layout.Content className={styles.content}>
             <Suspense fallback={<div>Loading...</div>}>
               <Fragment>
                 <Switch>
                   {routes}
-                  {redirects}
-                  <Redirect to={match.url} />
                 </Switch>
               </Fragment>
             </Suspense>
-          </Content>
+          </Layout.Content>
           <Footer />
         </Layout>
       </Layout>

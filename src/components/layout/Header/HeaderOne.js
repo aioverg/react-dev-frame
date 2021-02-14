@@ -3,6 +3,7 @@ import { Layout, Avatar, Popover } from 'antd'
 import styles from './HeaderOne.less'
 import Connect from '@components/hoc/Connect'
 import { injectIntl } from 'react-intl'
+import {Link} from 'react-router-dom'
 
 import { translateText } from '@utils/translate'
 import avatarImg from '@assets/img/avatar.jpeg'
@@ -29,48 +30,7 @@ class Header extends PureComponent {
       logout()
     }
   }
-
-  // handleClickLanguage = e => {
-  //   const language = e.key
-  //   this.props.dispatch({
-  //     type: 'app/language',
-  //     payload: {
-  //       language
-  //     }
-  //   })
-  // }
-
-  // toggle = e => {
-  //   if (this.props.toggle) {
-  //     this.props.toggle()
-  //   }
-  // }
-
-  menuTem = (data) => { // 菜单模板
-    const { currentPath } = this.state
-    const MenuItem = () => {
-      return data.map(item => {
-        if (item) {
-          const { children, path, icon, transKey, name = '' } = item
-          return (
-            <div className={styles.menuItem} key={path}>
-              <span style={{ color: currentPath == path ? '#FFFFFF' : '' }} className={styles.menuItemLabel} onClick={() => this.switchMenu(item)}>{name}</span>
-            </div>
-          )
-        }
-      })
-    }
-    return (<div className={styles.menu}>{MenuItem()}</div>)
-  }
-
-  switchMenu = (item) => { // 切换菜单，在这里处理生成菜单预留的内容
-    const { history } = this.props
-    history.push(item.path)
-    this.setState({
-      currentPath: item.path
-    })
-  }
-
+  
   UserTem = () => { // 用户信息模板
     return (
       <div>
@@ -93,7 +53,17 @@ class Header extends PureComponent {
         </div>
 
         {/* 菜单 */}
-        {this.menuTem(menuList)}
+        <div className={styles.menu}>
+          {menuList.map(item => {
+            return (
+              <div className={styles.menuItem} key={item.path}>
+              <Link to={item.path}>
+                <span>{item.name}</span>
+              </Link>
+            </div>
+            )
+          })}
+        </div>)
 
         {/* 用户信息 */}
         <div className={styles.user}>

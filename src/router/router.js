@@ -3,6 +3,16 @@
  */
 import React from 'react'
 const router = [
+
+  {
+    name: '首页',
+    transKey: 'Catalog',
+    routeProps: {
+      path: '/app',
+      component: React.lazy(() => import('@src/views/Catalog')),
+    },
+    permKey: true, // 表示所有用户都拥有权限
+  },
   // 目录模块
   {
     name: '首页',

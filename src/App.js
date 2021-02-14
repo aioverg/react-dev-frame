@@ -22,7 +22,7 @@ const App = (
           <Switch>
             <Route path='/login' component={Login} />
             <Route path='/app' component={Home} />
-            <Redirect to='/app' />
+            <Redirect to='/login' />
           </Switch>
         </Suspense>
       </HashRouter>

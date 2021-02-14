@@ -6,15 +6,12 @@ import router from './router'
 
 /**
  * 根据index.route.js配置生成路由
- * @param {用户菜单列表} menuList
- * @param {用户权限列表} permList
+ * @param menuList // 用户菜单列表
+ * @param permList // 用户权限列表
  */
-export function generateRoute (menuList = [], permList = null) {
+export function generateRoute (menuList = [], permList = null) { // 生产路由
   // 防止修改原数组
   const menuListTmp = cloneDeep(menuList)
-  // 读取所有index.route.js文件
-  const routeList = require.context('../views', true, /index\.route\.js/)
-
   // 已生成有效的路由(菜单有，路由不一定有效，如包含二级菜单的一级菜单)
   const existRoute = {}
   // 若有自定义重定向的需要重新生成
@@ -30,86 +27,21 @@ export function generateRoute (menuList = [], permList = null) {
          * 初始化阶段：用户还没获取到权限列表，permList为null，应生成全部路由，否则刷新页面时都会转跳到首页
          * 更新阶段：用户获取到权限列表，permList已更新，不为null，根据用户权限列表重新生成路由
          */
-        // console.log('permList', permList)
         if (!permList || permKey === true || permList.includes(permKey)) {
           existRoute[key] = { name, transKey, routeProps: { path: key } }
           return <BoundaryRoute key={key} exact={true} {...routeProps} />
         }
       } else {
         const m = existRoute[key]
-        console.error(`警告：【${name}-${key}】路由无效！已存在相同的路由【${m.name}-${m.routeProps.path}】，请在index.route.js中重置routeProps.path！`)
+        console.error(`警告：【${name}-${key}】路由无效！已存在相同的路由【${m.name}-${m.routeProps.path}】，请在route.js中重置routeProps.path！`)
       }
     } else {
       console.error(`警告：【${name}】路由无效！routeProps，routeProps.path不能为空！`)
     }
   })
-
-  console.log('routes', routes)
-
-  // 根据用户菜单列表，自动生成转跳Redirect
-  const filterRedirect = (item) => {
-    const { children, path } = item || {}
-    let valid = false
-    // 校验子菜单
-    if (Array.isArray(children) && children.length) {
-      valid = true
-      const redirectProps = {
-        from: path,
-        to: children[0].path
-      }
-      // 真正有效重定向路由
-      redirectsTemp.push(redirectProps)
-      // tips:这里会改变原数组
-      item.children = children.filter(filterRedirect)
-    }
-    return valid
-  }
-
-  // 过滤菜单，生成重定向路由
-  menuListTmp.filter(filterRedirect)
-
-  // Redirect重定向需要放到最底部
-  // 先对path长度进行排序，因为redirect中from字段匹配到马上返回，因此from字段越长越靠前
-  const compare = (prop) => {
-    return (obj1, obj2) => {
-      const len1 = (obj1[prop] || '').split('/').length
-      const len2 = (obj2[prop] || '').split('/').length
-      return len1 - len2
-    }
-  }
-  // 重新排序
-  const redirectsArr = redirectsTemp.sort(compare('from'))
-  // 生成重定向路由
-  const redirects = redirectsArr.map((item, index) => {
-    if (item && item['from']) {
-      return <Redirect key={item['from'] || index} {...item} />
-    }
-  })
-  console.log('existRoute', existRoute)
-  return { routes, existRoute, redirects }
+  return { routes}
 }
 
-/**
- * 自定义key，生成菜单map类型
- * @param {router唯一属性值，如'path'} key
- * @param {router数据} menuList
- */
-export function getrouterMap (key = 'path', menuList = []) {
-  const routerMap = {}
-  const generateMap = (list) => {
-    list.map(item => {
-      if (item) {
-        const { children } = item
-        if (children && children.length) {
-          generateMap(children)
-        }
-        routerMap[item[key]] = item
-      }
-    })
-  }
-  generateMap(menuList)
-  return routerMap
-}
 
 /**
  * 过滤无效菜单
