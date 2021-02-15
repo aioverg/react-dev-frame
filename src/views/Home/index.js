@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment, lazy, Suspense } from 'react'
 import { Switch, withRouter } from 'react-router-dom'
 import { Layout } from 'antd'
-import HeaderOne from '@src/components/layout/Header/HeaderOne'
+import HeaderOne from '@src/components/layout/Header/Header'
 import Footer from '@src/components/layout/Footer/Footer'
 import styles from './index.less'
 import { getCookie } from '@utils/handleCookie'

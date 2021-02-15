@@ -1,19 +1,23 @@
-import React, { PureComponent, Fragment } from 'react'
-import { Layout, Menu, Avatar } from 'antd'
-import { QuestionOutlined } from '@ant-design/icons';
-import styles from './Header.less'
-import Connect from '@components/hoc/Connect'
-import { injectIntl } from 'react-intl'
-
-import { translateText } from '@utils/translate'
-import avatarImg from '@assets/img/avatar.jpeg'
+import React, { PureComponent } from 'react'
+import { Layout, Avatar, Popover } from 'antd'
+import styles from './HeaderOne.less'
+import {Link} from 'react-router-dom'
 import { logout } from '@utils/handleLogin'
-
-const { SubMenu } = Menu
+import { connect } from 'react-redux'
 
 class Header extends PureComponent {
   constructor(props) {
     super(props)
+    this.state = {
+      currentPath: '/app'
+    }
+  }
+
+  componentDidMount () {
+    const { menuList } = this.props
+    this.setState({
+      currentPath: window.location.hash.replace('#', '')
+    })
   }
 
   handleClickSignout = e => {
@@ -21,75 +25,53 @@ class Header extends PureComponent {
       logout()
     }
   }
-
-  handleClickLanguage = e => {
-    const language = e.key
-    this.props.dispatch({
-      type: 'app/language',
-      payload: {
-        language
-      }
-    })
-  }
-
-  toggle = e => {
-    if (this.props.toggle) {
-      this.props.toggle()
-    }
+  
+  UserTem = () => { // 用户信息模板
+    return (
+      <div>
+        <div onClick={this.handleClickSignout}>退出</div>
+      </div>
+    )
   }
 
   render () {
     const username = sessionStorage.getItem('username')
-    const { collapsed, language, languages } = this.props
-    const currentLanguage = languages.find(item => item.key === language)
+    const {permissions} = this.props
     return (
       <Layout.Header className={styles.header}>
-        {/* 菜单收起关闭 */}
-        <QuestionOutlined
-          onClick={this.toggle}
-        />
-        <div className={styles.rightcon}>
-          {/* 语言菜单 */}
-          <Menu
-            selectedKeys={[currentLanguage.key]}
-            onClick={this.handleClickLanguage}
-            mode="horizontal"
+        {/* logo */}
+        <div className={styles.logo}>
+          <img src="src/comm/assets/logo.png" style={{ width: '35px', height: '35px' }} />
+          <span className={styles.name}>FE-IU BI</span>
+          <span className={styles.line}></span>
+        </div>
+
+        {/* 菜单 */}
+        <div className={styles.menu}>
+          {permissions.existMenu.map(item => {
+            return (
+              <div className={styles.menuItem} key={item.path}>
+              <Link to={item.path}>
+                <span>{item.name}</span>
+              </Link>
+            </div>
+            )
+          })}
+        </div>)
+
+        {/* 用户信息 */}
+        <div className={styles.user}>
+          <Avatar size={24} style={{ backgroundColor: '#597EF7', fontSize: '9px' }}>{username}</Avatar>
+          <Popover
+            content={this.UserTem()}
+            trigger="click"
           >
-            <SubMenu title={<Avatar size="small" src={currentLanguage.flag} />}>
-              {languages.map(item => (
-                <Menu.Item key={item.key}>
-                  <Avatar
-                    size="small"
-                    style={{ marginRight: 8 }}
-                    src={item.flag}
-                  />
-                  {item.title}
-                </Menu.Item>
-              ))}
-            </SubMenu>
-          </Menu>
-          {/* 登陆用户问候语 */}
-          <Menu key="user" mode="horizontal" onClick={this.handleClickSignout}>
-            <SubMenu
-              title={
-                <Fragment>
-                  <span style={{ color: '#999', marginRight: 4 }}>
-                    {translateText({ id: 'Hi,' })}
-                  </span>
-                  <span>{username}</span>
-                  {/* <Avatar style={{ marginLeft: 8 }} src={avatarImg} /> 头像 */}
-                </Fragment>
-              }
-            >
-              <Menu.Item key="SignOut">
-                {translateText({ id: 'Sign out' })}
-              </Menu.Item>
-            </SubMenu>
-          </Menu>
+            <span className={styles.userName}>{username}</span>
+          </Popover>
         </div>
       </Layout.Header>
     )
   }
 }
 
-export default Connect(injectIntl(Header), ({ app }) => (app))
+export default connect(state => state)(Header)
