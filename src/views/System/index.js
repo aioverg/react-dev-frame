@@ -3,6 +3,14 @@ import { connect } from "react-redux"
 import { Menu } from 'antd'
 import {Link, Switch} from 'react-router-dom'
 import {RouteWithSubRoutes} from '@src/router/router'
+import styled from 'styled-components'
+
+const SystemBox = styled.div`
+  display: flex;
+`
+const SysTemSide = styled.div`
+  width: 210px;
+`
 
 const mapStateToProps = state => {
   return state
@@ -30,27 +38,27 @@ class System extends PureComponent {
     const menuList ={ children:[
       {
         name: '目录管理',
-        path: '/app/system/catalog',
+        path: '/bi/system/catalog',
         icon: 'box-plot',
         permKey: 'system.catalog',
         children: []
       },
       {
         name: '数据连接',
-        path: '/app/system/dataConnect',
+        path: '/bi/system/dataConnect',
         icon: 'box-plot',
         permKey: 'system.dataConnect',
         children: [
           {
             name: '数据连接管理',
-            path: '/app/system/dataConnect/manage',
+            path: '/bi/system/dataConnect/manage',
             icon: 'box-plot',
             permKey: 'system.connect',
             children: []
           },
           {
             name: '服务器数据集',
-            path: '/app/system/dataConnect/dataset',
+            path: '/bi/system/dataConnect/dataset',
             icon: 'box-plot',
             permKey: 'system.dataset',
             children: []
@@ -59,7 +67,6 @@ class System extends PureComponent {
       }
     ]
   }
-    console.log('---------', menuList)
     const menuItem = (data) => {
       
       return data.map(item => {
@@ -81,16 +88,18 @@ class System extends PureComponent {
   }
   render(){
     const {routes} = this.props
-    console.log('000000000', routes)
     return (
-      <div>
-        {this.menuTem()}
+      <SystemBox>
+        <SysTemSide>
+          {this.menuTem()}
+        </SysTemSide>
+        
         <Switch>
           {routes.map(item => {
             return(<RouteWithSubRoutes key={item.name} {...item} />)
           })}
         </Switch>
-      </div>
+      </SystemBox>
     )
   }
 }

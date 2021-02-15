@@ -6,7 +6,7 @@ import {Route} from 'react-router-dom'
 const router = [
   {
     name: '首页',
-    path: '/app/Catalog',
+    path: '/bi/home',
     component: React.lazy(() => import('@src/views/Catalog')),
     transKey: 'Catalog',
     permKey: true, // 表示所有用户都拥有权限
@@ -15,7 +15,7 @@ const router = [
   // 目录模块
   {
     name: '首页',
-    path: '/app/catalog',
+    path: '/bi/catalog',
     component: React.lazy(() => import('@src/views/Catalog')),
     transKey: 'Catalog',
     permKey: true, // 表示所有用户都拥有权限
@@ -26,7 +26,7 @@ const router = [
   {
     name: '仪表盘',
     transKey: 'dashBoard',
-    path: '/app/dashBoard',
+    path: '/bi/dashBoard',
     component: React.lazy(() => import(/* webpackChunkName: 'system' */'@src/views/DashBoard')),
     routeProps: {
       
@@ -39,7 +39,7 @@ const router = [
   // 数据准备模块
   {
     name: '数据准备',
-    path: '/app/dataBase',
+    path: '/bi/dataBase',
     component: React.lazy(() => import(/* webpackChunkName: 'system' */'@src/views/DataBase')),
     permKey: true,
     children: []
@@ -48,25 +48,25 @@ const router = [
   // 系统管理模块
   {
     name: '系统管理',
-    path: '/app/system',
+    path: '/bi/system',
     component: React.lazy(() => import(/* webpackChunkName: 'exchange' */'@src/views/System')),
     permKey: true, // 表示所有用户都拥有权限
     children: [
       {
         name: '目录管理',
-        path: '/app/system/catalog',
+        path: '/bi/system/catalog',
         component: React.lazy(() => import(/* webpackChunkName: 'rolemanage' */'@src/views/System/CatalogManage')),
         permKey: 'system.catalog',
       },
       {
         name: '服务器数据集',
-        path: '/app/system/dataConnect/dataset',
+        path: '/bi/system/dataConnect/dataset',
         component: React.lazy(() => import(/* webpackChunkName: 'rolemanage' */'@src/views/System/DataConnect/Dataset')),
         permKey: 'system.dataset',
       },
       {
         name: '数据连接管理',
-        path: '/app/system/dataConnect/manage',
+        path: '/bi/system/dataConnect/manage',
         component: React.lazy(() => import(/* webpackChunkName: 'rolemanage' */'@src/views/System/DataConnect/Connect')),
         permKey: 'system.dataConnect',
       }

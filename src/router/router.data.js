@@ -8,14 +8,14 @@ const router = [
   {
     name: '首页',
     transKey: 'Catalog',
-    path: '/app',
+    path: '/bi/home',
     icon: 'home',
     permKey: true,
     children: [
       {
         name: '首页',
         transKey: 'Catalog',
-        path: '/app/catalog',
+        path: '/bi/catalog',
         icon: 'home',
         permKey: true,
         children: []
@@ -26,7 +26,7 @@ const router = [
   {
     name: '仪表盘',
     transKey: 'dashBoard',
-    path: '/app/dashBoard',
+    path: '/bi/dashBoard',
     icon: 'laptop',
     permKey: 'dashBoard',
     children: []
@@ -36,7 +36,7 @@ const router = [
     name: '数据准备',
     transKey: 'Database',
     key: 'database',
-    path: '/app/dataBase',
+    path: '/bi/dataBase',
     icon: 'table',
     permKey: 'dataBase',
     children: []
@@ -44,33 +44,33 @@ const router = [
   {
     name: '系统管理',
     transKey: 'System',
-    path: '/app/system',
+    path: '/bi/system',
     icon: 'box-plot',
     permKey: 'system',
     children: [
       {
         name: '目录管理',
-        path: '/app/system/catalog',
+        path: '/bi/system/catalog',
         icon: 'box-plot',
         permKey: 'system.catalog',
         children: []
       },
       {
         name: '数据连接',
-        path: '/app/system/dataConnect',
+        path: '/bi/system/dataConnect',
         icon: 'box-plot',
         permKey: 'system.dataConnect',
         children: [
           {
             name: '数据连接管理',
-            path: '/app/system/dataConnect/manage',
+            path: '/bi/system/dataConnect/manage',
             icon: 'box-plot',
             permKey: 'system.connect',
             children: []
           },
           {
             name: '服务器数据集',
-            path: '/app/system/dataConnect/dataset',
+            path: '/bi/system/dataConnect/dataset',
             icon: 'box-plot',
             permKey: 'system.dataset',
             children: []

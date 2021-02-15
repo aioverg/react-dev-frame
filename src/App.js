@@ -21,7 +21,7 @@ const App = (
         <Suspense fallback={<div>Loading...</div>}>
           <Switch>
             <Route path='/login' component={Login} />
-            <Route path='/app' component={Home} />
+            <Route path='/bi' component={Home} />
             <Redirect to='/login' />
           </Switch>
         </Suspense>
