@@ -5,8 +5,10 @@ import HeaderOne from '@src/components/layout/Header/HeaderOne'
 import Footer from '@src/components/layout/Footer/Footer'
 import styles from './index.less'
 import { getCookie } from '@utils/handleCookie'
-import Connect from '@components/hoc/Connect'
+import { connect } from 'react-redux'
 import router, {RouteWithSubRoutes} from '@src/router/router'
+import {setAxiosToken} from '@src/utils/handleAxios'
+import {setPermission, noPermisson} from '@src/redux/actions'
 /**
  * app主页面布局
  */
@@ -21,28 +23,21 @@ class Home extends PureComponent {
 
 
   componentDidMount () { // 检查是否需要登录,若登录跳转到制定路由页，否则跳转到登录页
-    const { dispatch, isNeedPermission } = this.props
+    const permissionFlag = true // 是否需要权限
+    const { dispatch } = this.props
     const token = getCookie('feiu_token')
-    console.log('设置缓存', token)
-    // if (token) {
-    //   setAxiosToken(token) // 为 axios 的请求加上token
-    //   if (isNeedPermission) {// 需要菜单和路由权限
-    //     // 获取用户权限列表
-    //     dispatch({
-    //       type: 'app/get/permission',
-    //       payload: {
-    //         token
-    //       }
-    //     })
-    //   } else {// 不需要菜单和路由权限
-    //     dispatch({
-    //       type: 'app/get/router',
-    //     })
-    //   }
-    // } else {
-    //   // 转跳登陆页面
-    //   toLoginPage()
-    // }
+    if (token) {
+      setAxiosToken(token) // 为 axios 的请求加上token
+      if (permissionFlag) {// 需要菜单和路由权限
+        // 获取用户权限列表
+        dispatch(setPermission())
+      } else {// 不需要菜单和路由权限
+        dispatch(noPermisson())
+      }
+    } else {
+      // 转跳登陆页面
+      toLoginPage()
+    }
   }
 
 
@@ -65,8 +60,7 @@ class Home extends PureComponent {
       history,
       menuList
     }
-    console.log('routes-----', routes)
-    console.log('match-----', match)
+    console.log('routes-----', this.props)
     return (
       <Layout className={styles.app}>
         <HeaderOne {...siderProps} collapsed={collapsed} history={history} toggle={this.toggle} />
@@ -89,4 +83,4 @@ class Home extends PureComponent {
   }
 }
 
-export default Connect(withRouter(Home), ({ app }) => (app))
+export default connect(state => state)(withRouter(Home))

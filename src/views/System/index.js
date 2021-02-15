@@ -12,10 +12,6 @@ const SysTemSide = styled.div`
   width: 210px;
 `
 
-const mapStateToProps = state => {
-  return state
-}
-
 class System extends PureComponent {
   constructor(props){
     super(props)
@@ -35,38 +31,11 @@ class System extends PureComponent {
     
   }
   menuTem = () => {
-    const menuList ={ children:[
-      {
-        name: '目录管理',
-        path: '/bi/system/catalog',
-        icon: 'box-plot',
-        permKey: 'system.catalog',
-        children: []
-      },
-      {
-        name: '数据连接',
-        path: '/bi/system/dataConnect',
-        icon: 'box-plot',
-        permKey: 'system.dataConnect',
-        children: [
-          {
-            name: '数据连接管理',
-            path: '/bi/system/dataConnect/manage',
-            icon: 'box-plot',
-            permKey: 'system.connect',
-            children: []
-          },
-          {
-            name: '服务器数据集',
-            path: '/bi/system/dataConnect/dataset',
-            icon: 'box-plot',
-            permKey: 'system.dataset',
-            children: []
-          },
-        ]
-      }
-    ]
-  }
+    const {permissions} = this.props
+    let menuList = {}
+    menuList = permissions.existMenu.find(item => {
+      return item.path == '/bi/system'
+    })
     const menuItem = (data) => {
       
       return data.map(item => {
@@ -104,4 +73,4 @@ class System extends PureComponent {
   }
 }
 
-export default connect(mapStateToProps)(System)
+export default connect(state => state)(System)

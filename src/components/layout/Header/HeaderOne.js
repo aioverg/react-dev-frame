@@ -3,8 +3,7 @@ import { Layout, Avatar, Popover } from 'antd'
 import styles from './HeaderOne.less'
 import {Link} from 'react-router-dom'
 import { logout } from '@utils/handleLogin'
-import router from '@src/router/router.data'
-
+import { connect } from 'react-redux'
 
 class Header extends PureComponent {
   constructor(props) {
@@ -37,6 +36,7 @@ class Header extends PureComponent {
 
   render () {
     const username = sessionStorage.getItem('username')
+    const {permissions} = this.props
     return (
       <Layout.Header className={styles.header}>
         {/* logo */}
@@ -48,7 +48,7 @@ class Header extends PureComponent {
 
         {/* 菜单 */}
         <div className={styles.menu}>
-          {router.map(item => {
+          {permissions.existMenu.map(item => {
             return (
               <div className={styles.menuItem} key={item.path}>
               <Link to={item.path}>
@@ -74,4 +74,4 @@ class Header extends PureComponent {
   }
 }
 
-export default Header
+export default connect(state => state)(Header)

@@ -12,16 +12,6 @@ const router = [
     permKey: true, // 表示所有用户都拥有权限
     children: []
   },
-  // 目录模块
-  {
-    name: '首页',
-    path: '/bi/catalog',
-    component: React.lazy(() => import('@src/views/Catalog')),
-    transKey: 'Catalog',
-    permKey: true, // 表示所有用户都拥有权限
-    children: []
-  },
-
   // 仪表盘模块
   {
     name: '仪表盘',
