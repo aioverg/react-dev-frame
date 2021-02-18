@@ -5,8 +5,6 @@ import styles from './index.less'
 import { login } from '@src/views/api/Login.api'
 import { setCookie } from '@utils/handleCookie'
 
-import axios from 'axios'
-
 class Login extends PureComponent {
   constructor(props) {
     super(props)

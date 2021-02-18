@@ -4,6 +4,11 @@ import styles from './HeaderOne.less'
 import {Link} from 'react-router-dom'
 import { getCookie, clearCookie } from '@utils/handleCookie'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+
+const MenuItem = styled.span`
+  color: '#ffffff'
+`
 
 class Header extends PureComponent {
   constructor(props) {
@@ -36,7 +41,7 @@ class Header extends PureComponent {
   }
 
   render () {
-    const username = sessionStorage.getItem('username')
+    const username = sessionStorage.getItem('username') || '用户名写死的'
     const {permissions} = this.props
     return (
       <Layout.Header className={styles.header}>
@@ -53,7 +58,7 @@ class Header extends PureComponent {
             return (
               <div className={styles.menuItem} key={item.path}>
               <Link to={item.path}>
-                <span>{item.name}</span>
+                <span style={{color: 'rgba(255, 255, 255, 0.8)'}}>{item.name}</span>
               </Link>
             </div>
             )
