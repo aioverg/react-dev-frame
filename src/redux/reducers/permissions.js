@@ -3,10 +3,18 @@ const permissionInit = {
   existMenu: []
 }
 
-export default function(state = permissionInit, action) {
-  const permission = action.payload || {}
-  return {
-    ...state,
-    ...permission
+export default function (state = permissionInit, action) {
+  switch (action.type) {
+    case 'SET_PERMISSION':
+      return {
+        ...state,
+        ...action.payload || {}
+      }
+      break;
+    default:
+      return {
+        ...state
+      }
+      break;
   }
 }

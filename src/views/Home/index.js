@@ -1,5 +1,5 @@
 import React, { PureComponent, Fragment, lazy, Suspense } from 'react'
-import { Switch, withRouter } from 'react-router-dom'
+import { Switch, withRouter, useHistory } from 'react-router-dom'
 import { Layout } from 'antd'
 import HeaderOne from '@src/components/layout/Header/Header'
 import Footer from '@src/components/layout/Footer/Footer'
@@ -26,8 +26,11 @@ class Home extends PureComponent {
     const permissionFlag = true // 是否需要权限
     const { dispatch } = this.props
     const token = getCookie('feiu_token')
+    const { history } = this.props
+    console.log('token', token)
     if (token) {
       setAxiosToken(token) // 为 axios 的请求加上token
+      history.push("/bi/home")
       if (permissionFlag) {// 需要菜单和路由权限
         // 获取用户权限列表
         dispatch(setPermission())
@@ -36,7 +39,8 @@ class Home extends PureComponent {
       }
     } else {
       // 转跳登陆页面
-      toLoginPage()
+      
+      history.push("/login")
     }
   }
 

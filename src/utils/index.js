@@ -1,5 +1,5 @@
 import { showMessageError, showMessageSuccess, showModalError, getAjaxErrorMsg, showMessageWarn } from './handleError'
-import { toLoginPage, logout } from './handleLogin'
+import { logout } from './handleLogin'
 import { checkAccessPermission } from './permission'
 
 export default {
@@ -8,7 +8,6 @@ export default {
   showModalError,
   getAjaxErrorMsg,
   showMessageWarn,
-  toLoginPage,
   logout,
   checkAccessPermission
 }
