@@ -1,6 +1,5 @@
 // axios 设置
 import axios from 'axios'
-import { logout } from '@utils/handleLogin'
 
 // 网络异常拦截器
 const errorHandler = (resp) => {
@@ -8,7 +7,7 @@ const errorHandler = (resp) => {
   switch (status) {
     case 401:
       // 没有认证
-      logout()
+      alert('我也不知道这里做什么')
       break
     default:
       break

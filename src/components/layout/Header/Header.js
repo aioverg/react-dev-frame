@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Layout, Avatar, Popover } from 'antd'
 import styles from './HeaderOne.less'
 import {Link} from 'react-router-dom'
-import { logout } from '@utils/handleLogin'
+import { getCookie, clearCookie } from '@utils/handleCookie'
 import { connect } from 'react-redux'
 
 class Header extends PureComponent {
@@ -20,16 +20,17 @@ class Header extends PureComponent {
     })
   }
 
-  handleClickSignout = e => {
-    if (e.key === 'SignOut') {
-      logout()
-    }
+  logout = e => {
+    const {history} = this.props
+    const token = getCookie('feiu_token')
+    clearCookie('feiu_token')
+    history.push('/login')
   }
   
   UserTem = () => { // 用户信息模板
     return (
       <div>
-        <div onClick={this.handleClickSignout}>退出</div>
+        <div onClick={this.logout}>退出</div>
       </div>
     )
   }

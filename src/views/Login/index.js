@@ -23,8 +23,7 @@ class Login extends PureComponent {
     }).then(res => {
       console.log(res)
       if (res.data.code == 200) {
-        setCookie('feiu_token', res.data.data.token) // 设置cookie, 保存登录信息，有效期1天
-        // devSetCookieToken(res.data.data.token)
+        setCookie('feiu_token', res.data.data.token) // 设置cookie, 保存登录信息
         history.push('/bi/home')
       }
     })
