@@ -21,13 +21,12 @@ class Home extends PureComponent {
     }
   }
 
-
   componentDidMount () { // 检查是否需要登录,若登录跳转到制定路由页，否则跳转到登录页
     const permissionFlag = true // 是否需要权限
     const { dispatch } = this.props
     const token = getCookie('feiu_token')
     const { history } = this.props
-    console.log('token', token)
+    this.routerGuard()
     if (token) {
       setAxiosToken(token) // 为 axios 的请求加上token
       history.push("/bi/home")
@@ -42,6 +41,17 @@ class Home extends PureComponent {
       
       history.push("/login")
     }
+  }
+
+  routerGuard = () => { // 路由守卫
+    const { history } = this.props
+    window.addEventListener('hashchange', () => {
+      const token = getCookie('feiu_token')
+      console.log()
+      if (!token) {
+        history.push("/login")
+      }
+    })
   }
 
 
