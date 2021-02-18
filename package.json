@@ -29,8 +29,6 @@
     "not op_mini all"
   ],
   "dependencies": {
-    "@lingui/macro": "^2.8.3",
-    "@lingui/react": "^2.8.3",
     "@loadable/component": "^5.10.3",
     "ant-virtual-table": "^0.1.8",
     "antd": "^4.10.0",
@@ -52,11 +50,8 @@
     "react-router": "^5.0.1",
     "react-router-dom": "^5.0.1",
     "redux": "^4.0.4",
-    "redux-actions": "^2.6.5",
-    "redux-saga": "^1.1.1",
     "standard": "^12.0.1",
-    "styled-components": "^5.2.1",
-    "xlsx": "^0.15.1"
+    "styled-components": "^5.2.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
