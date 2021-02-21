@@ -138,15 +138,12 @@ module.exports = {
 webpack.config.js
 ```js
 module.exports = {
-  //...
   resolve: {
     alias: {
-      '@assets': path.join(__dirname, 'assets'),
       '@src': path.join(__dirname, 'src'),
       '@components': path.join(__dirname, 'src/components'),
       '@utils': path.join(__dirname, 'src/utils'),
       '@router': path.join(__dirname, 'src/router'),
-      '@locales': path.join(__dirname, 'src/locales'),
     }
   }
 }
@@ -161,12 +158,10 @@ jsconfig.json
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@assets/*": ["assets/*"],
       "@src/*": ["src/*"],
       "@components/*": ["src/components/*"],
       "@utils/*": ["src/utils/*"],
       "@router/*": ["src/router/*"],
-      "@locales/*": ["src/locales/*"],
     }
   },
 }

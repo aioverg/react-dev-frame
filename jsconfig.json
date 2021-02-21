@@ -26,9 +26,6 @@
       "@router/*": [
         "src/router/*"
       ],
-      "@locales/*": [
-        "src/locales/*"
-      ],
     }
   },
   "exclude": [
