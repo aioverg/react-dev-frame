@@ -55,13 +55,6 @@ $ npm run build:prod
 |  |— App.js                   —— 入口 App.js 文件
 |— webpack.config.js           —— webpack 配置文件 
 
-## 语法规范说明
- 1.针对tabs业务模块，不再使用文件名称代表某个业务模块，建议使用目录名称替代。比如主页模块，目录名称home就代表home业务模块，home目录下采用index.js作为模块入口
-
- 2.由于react已经采用react16.9版本，切勿继续使用componentWillMount和componentWillReceiveProps等即将要废弃的生命周期，免得要在react17版本中增加维护成本
-
- ...
-
 ## 功能说明
 + [1.菜单配置](#function.router)
 + [2.动态路由](#function.route)
@@ -79,45 +72,11 @@ $ npm run build:prod
 ### <span id="function.router">1.菜单配置</span>
 新增一个菜单需要两个步骤：
 
-1）在router中的router.data.js文件中添加新菜单，其中key和path都是唯一值（其中permKey是权限字段，[权限控制](#function.perm)中会介绍）
+1）在router/menu.js 中添加菜单
 
-2）在对应的tabs模块下添加index.menux.js文件配置，其中key和path要与步骤1中保持一致（其中routeProps是路由属性，[动态路由](#function.route)中会介绍）
+2）在router/router.js 中添加路由
 
-涉及范围：
-> router/router.data.js
->
-> tabs/../index.route.js
-
-### <span id="function.route">2.动态路由</span>
-项目中采用[react-router4](https://reacttraining.com/react-router/)管理路由，路由又分为静态路由和动态路由
-
-1）静态路由：src/App.js中转跳app页面和login页面采用的是静态路由设计，它属于页面层级，并不会因为用户权限的差异而不同
-
-2）动态路由：pages/app/index.js中采用的是动态生成路由，它会因为用户权限的不同而存在差异
-
-动态生成路由逻辑：
-> 1）先去pages/tabs业务目录下查找出所有业务模块index.route.js文件
->
-> 2）根据index.route.js查找routeProps属性生成Route
->
-> 3）根据传入用户菜单列表的menuList查找父级菜单下的第一个子菜单生成Redirect（业务需求：点击父级菜单路由会转跳至第一个有效子菜单）
->
-> 详情：router/menu.route.js
-
-涉及范围：
-> layout/app/index.js
->
-> router/menu.route.js
->
-> tabs/../index.route.js
-
-app内菜单处理技术方案：
-> 1）路由转跳方案：点击菜单加载tab页面文件，转跳到对应的路由并渲染页面，本项目采用的是路由转跳处理方案
->
-> 2）新增tab方案：点击菜单加载tab页面文件，新增tab渲染页面，若采用该技术实现方案，可将上述涉及范围删除
-
-
-### <span id="function.perm">3.权限控制</span>
+### <span id="function.perm">2.权限控制</span>
 权限控制分为菜单权限和功能权限，登录成功后，从后端获取权限列表（一个权限key值的列表）
 
 1）菜单权限：
@@ -131,108 +90,27 @@ app内菜单处理技术方案：
 
 
 涉及范围：
-> layout/app/index.js
->
-> router/router.data.js
->
-> router/menu.permission.js
->
-> utils/permission.js
->
-> tabs/../index.route.js
-
-权限设置方案：
-> 1）前后端结合方案：用户登陆后，获取用户权限列表，前端根据用户权限列表生成相应的菜单，但需要前端配置菜单权限key值；
->> 优势：路由权限和功能权限可以一次性获取
->
-> 2）后端判断方案：用户登陆后，后端判断该用户权限，直接返回菜单列表，前端直接显示
->> 优势：前端不需要重新生成菜单，也不需要配置权限key值
->> 劣势：若有菜单内颗粒度更小的按钮功能等权限时，还需要再次向后端获取权限列表值，判断是否需要显示
+> router/menu.js 等等
 
 
-### <span id="function.data">4.数据管理</span>
-数据管理采用的是[redux](https://www.redux.org.cn/)+[redux-saga](https://redux-saga-in-chinese.js.org/)方案，这里参考dva的部分设计思想，自己重新生成一套数据管理方案，使用方法与dva非常相似
+### <span id="function.data">3.数据管理</span>
+采用redux。
+略
 
-按照以下两个步骤使用
 
-新增一个菜单数据管理需要两个步骤：
-
-以views/home模块为例
-
-1）在home模块下创建一个index.model.js文件，其包含四个属性name, state, reducers, effects。
-> name: model名称，model中的name需要保持唯一，它是挂在store下state对应的key值
->
-> state: 初始state状态
->
-> reducers: reducer纯函数对象
->
-> effects: [redux-saga](https://redux-saga-in-chinese.js.org/)处理异步请求的副作用对象
-
-2）在home/index.js文件中使用connect()引入该模块的state属性，即步骤1中的name，它对全局有效
-
-> 说明：reducers和effects函数的key，最好以步骤1中的name开头，调用时业务清晰明了，同时方便后期全局的搜索和维护
-
-涉及范围：
-> layout/../index.model.js
->
-> layout/../index.js
->
-> redux/*
-
-核心设计思想：
-> 1）遍历pages/*目录下index.model.js找出{name, state, reducers}，并将其重新整合生成redux的reducer
->
-> 2）遍历pages/*目录下index.model.js找出effects，将其重新整合生成redux-saga
->
-> 更多详情请看[redux最佳实践的前世今生2](https://github.com/ctq123/blogs/issues/2)
-
-**redux建议使用场景**
-> 1.兄弟组件之间通信，不建议在直接父子组件中滥用redux
->
-> 2.跨多层父子组件之间通信，比如爷爷和孙子，曾祖父和曾孙等。redux原理之一就是基于这个来做的。
->
->>理论上，在index.js中直接使用axios处理异步已满足百分之九十业务场景了，比如user模块；
->>
->>只有一些跨兄弟组件通信或者跨多层父子组件才需要使用redux，比如login模块；
->>
->>home模块中的示例只是为了方便介绍redux的使用方法，故意而为之
-
-### <span id="function.lazy">5.按需加载</span>
+### <span id="function.lazy">4.按需加载</span>
 按需加载处理方案：
-
-1）采用require.ensure()处理
-
 2）采用react.lazy()处理，react16.6引入，利用import()原理处理懒加载，暂时还不支持服务器渲染
 
-3）采用[loadable-components](https://github.com/smooth-code/loadable-components)处理，支持服务器渲染，也是react官方推荐处理服务器渲染方案。
 
-后面两种方案都是采用[import()](https://zh-hans.reactjs.org/docs/code-splitting.html#import)原理进行代码切割，并使用promise进行异步加载。
-
-由于本项目不涉及服务器渲染，采用第二种技术方案，更重要的是它是react原生官方的，是亲生儿子，比任何第三方插件都可靠。
-
-### <span id="function.intl">6.国际化语言</span>
+### <span id="function.intl">5.国际化语言</span>
+暂不支持
 
 目前处理国际化语言最流行的两种解决方案是[react-intl](https://github.com/formatjs/react-intl/blob/master/docs/Components.md)和[i18n](https://lingui.js.org/ref/react.html#component-I18nProvider)
 
 本项目采用的是antd官方使用的一套国际化插件，[react-intl3](https://github.com/formatjs/react-intl/blob/master/docs/Components.md)，也是非常流行的一套解决方案，但目前网上的文章多是react-intl2的，react-intl3配置和使用方法均出现了较大的变化，具体可看官网。
 
-react-intl有两种使用方法：
->1）dom场景：直接生成HTML对应的翻译文本dom，如home模块(home/index.js)
->
->2）字符串场景：直接生成string字符串翻译文本字符串，如user模块(user/index.js)
-
-实际使用场景中需要在locales/目录下配置对应的key-value值，通过引用key来显示对应的文字
-
-涉及范围：
-> src/components/react-intl/*
->
-> locales/*
->
-> layout/../index.js
->
-> src/components/*
-
-### <span id="function.mock">7.本地mock服务</span>
+### <span id="function.mock">6.本地mock服务</span>
 这里采用的是一个外部插件cf-mock-server作为本地mock服务，具体配置可在webpack中配置
 
 webpack.config.js
@@ -254,7 +132,7 @@ module.exports = {
 涉及范围：
 > mock-server/*
 
-### <span id="function.alias">8.路径alias别名</span>
+### <span id="function.alias">7.路径alias别名</span>
 通过创建import或require的别名，来确保模块的引入变得更简单。
 
 webpack.config.js
@@ -294,7 +172,7 @@ jsconfig.json
 }
 ```
 
-### <span id="function.error">9.错误统一处理</span>
+### <span id="function.error">8.错误统一处理</span>
 采用axios作为通信处理方式，在应用页面初始化时，设置axios，并对url返回进行拦截处理，若出现错误异常，会出现两种场景，一种是网络错误，一种是业务错误
 
 1）网络错误：网络请求状态为401，404，503等错误，并提示对应的信息。
@@ -304,21 +182,12 @@ jsconfig.json
 涉及范围：
 > utils/handleAxios.js
 
-### <span id="function.csrf">10.安全CSRF防范</span>
-安全方面，我们采用token验证的方式解决
+### <span id="function.csrf">9.安全CSRF防范</span>
+安全方面，采用token验证的方式解决
 
-我们通过设置withCredentials携带cookie，前端登陆成功后，我们会从cookie中获取token值，并在axios请求的header中统一设置Authorization字段为token值，以后所有的请求的头部都会带上该Authorization字段，后端根据该字段与后端保存的token进行验证判断该请求是否合法
+通过设置withCredentials携带cookie，前端登陆成功后，会从cookie中获取token值，并在axios请求的header中统一设置Authorization字段为token值，以后所有的请求的头部都会带上该Authorization字段，后端根据该字段与后端保存的token进行验证判断该请求是否合法
 
 涉及范围：
 > utils/handleAxios.js
 
-### <span id="function.export">11.导出当前页</span>
-采用xlsx依赖包，它比file-saver更出色，提供多种导出文件格式并且提供样式导出，比如合并单元格等
-
-对antd的columns进行解析和封装，使用时直接调用方法即可，优雅简单，不需要其他配置
-
-涉及范围：
-> utils/exportTableData.js
->
-> utils/download-file.js
 
