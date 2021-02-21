@@ -8,9 +8,6 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "paths": {
-      "@assets/*": [
-        "assets/*"
-      ],
       "@src/*": [
         "src/*"
       ],

@@ -26,10 +26,10 @@ class Home extends PureComponent {
     const { dispatch } = this.props
     const token = getCookie('feiu_token')
     const { history } = this.props
+    console.log('------------', this.props)
     this.routerGuard()
     if (token) {
       setAxiosToken(token) // 为 axios 的请求加上token
-      history.push("/bi/home")
       if (permissionFlag) {// 需要菜单和路由权限
         // 获取用户权限列表
         dispatch(setPermission())
@@ -47,7 +47,6 @@ class Home extends PureComponent {
     const { history } = this.props
     window.addEventListener('hashchange', () => {
       const token = getCookie('feiu_token')
-      console.log()
       if (!token) {
         history.push("/login")
       }

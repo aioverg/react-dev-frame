@@ -40,7 +40,20 @@ $ npm run build:prod
 ```
 
 ## 结构说明
-![目录结构](./project.png)
+|— mock-server                 —— mock 数据
+|— public                      —— 入口 index.html 文件
+|— src                         —— 业务代码
+|  |— comm
+|  |  |— img                   —— 图片
+|  |  |— icon                  —— icon 文件
+|  |  |— style                 —— 样式
+|  |  |— js                    —— JavaScript 文件
+|  |— components               —— 组件
+|  |— redux                    —— redux 状态管理
+|  |— router                   —— router 路由
+|  |— view                     —— 业务页面
+|  |— App.js                   —— 入口 App.js 文件
+|— webpack.config.js           —— webpack 配置文件 
 
 ## 语法规范说明
  1.针对tabs业务模块，不再使用文件名称代表某个业务模块，建议使用目录名称替代。比如主页模块，目录名称home就代表home业务模块，home目录下采用index.js作为模块入口

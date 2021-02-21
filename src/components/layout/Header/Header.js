@@ -47,7 +47,7 @@ class Header extends PureComponent {
       <Layout.Header className={styles.header}>
         {/* logo */}
         <div className={styles.logo}>
-          <img src="src/comm/assets/logo.png" style={{ width: '35px', height: '35px' }} />
+          <img src="src/comm/img/logo.png" style={{ width: '35px', height: '35px' }} />
           <span className={styles.name}>FE-IU BI</span>
           <span className={styles.line}></span>
         </div>

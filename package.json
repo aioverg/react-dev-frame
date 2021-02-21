@@ -29,6 +29,7 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@antv/x6": "^1.12.31",
     "@loadable/component": "^5.10.3",
     "ant-virtual-table": "^0.1.8",
     "antd": "^4.10.0",

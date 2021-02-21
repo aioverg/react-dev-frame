@@ -2,7 +2,7 @@
  * 系统管理模块接口
  */
 
-import basicService from '@comm/request'
+import basicService from '@comm/js/request'
 const addUrl = '/bi'
 
 // 数据连接管理

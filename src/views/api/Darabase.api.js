@@ -1,7 +1,7 @@
 /**
  * 数据准备模块接口
  */
-import basicService from '@comm/request'
+import basicService from '@comm/js/request'
 const addUrl = '/bi'
 
 
