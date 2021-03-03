@@ -16,4 +16,3 @@ yarn-error.log*
 *.sln
 *.sw*
 .git
-webpack.config.js

@@ -8,104 +8,104 @@
  *
  */
 
-// const exampleLineData = [
-//   {
-//     tableIdName: '表1', // 表的名字
-//     tableId: 'table1', // 表的ID
-//     tableChunk: [ // 表的分块列表
-//       {
-//         ChunkId: 'chunk1-1', // 分块集合的id
-//         ChunkName: '表块1-1', // 分块集合的名字
-//         relationChunkId: ['chunk2-2', 'chunk3-2'], // 与分块相关联的分块Id,
-//         ChunkList: [ // 分块内容
-//           {
-//             columnId: 'column1-1',
-//             columnName: '字段1-1'
-//           }
-//         ]
-//       },
-//       {
-//         ChunkId: 'chunk1-2',
-//         ChunkName: '表块1-2',
-//         relationChunkId: ['chunk2-1', 'chunk3-1'],
-//         ChunkList: [
-//           {
-//             columnId: 'column1-2',
-//             columnName: '字段1-2'
-//           },
-//           {
-//             columnId: 'column1-3',
-//             columnName: '字段1-3'
-//           }
-//         ]
-//       }
-//     ]
-//   },
-//   {
-//     tableIdName: '表2',
-//     tableId: 'table2',
-//     tableChunk: [
-//       {
-//         ChunkId: 'chunk2-1',
-//         ChunkName: '表块2-1',
-//         relationChunkId: ['chunk1-2', 'chunk3-1'],
-//         ChunkList: [
-//           {
-//             columnId: 'column2-1',
-//             columnName: '字段2-1'
-//           }
-//         ]
-//       },
-//       {
-//         ChunkId: 'chunk2-2',
-//         ChunkName: '表块2-2',
-//         relationChunkId: ['chunk1-1'],
-//         ChunkList: [
-//           {
-//             columnId: 'column2-2',
-//             columnName: '字段2-2'
-//           },
-//           {
-//             columnId: 'column2-3',
-//             columnName: '字段2-3'
-//           }
-//         ]
-//       }
-//     ]
-//   },
-//   {
-//     tableIdName: '表3',
-//     tableId: 'table3',
-//     tableChunk: [
-//       {
-//         ChunkId: 'chunk3-1',
-//         ChunkName: '表块3-1',
-//         relationChunkId: ['chunk1-2', "chunk2-1"],
-//         ChunkList: [
-//           {
-//             columnId: 'column3-1',
-//             columnName: '字段3-1'
-//           }
-//         ]
-//       },
-//       {
-//         ChunkId: 'chunk3-2',
-//         ChunkName: '表块3-2',
-//         relationChunkId: ['chunk1-1'],
-//         ChunkList: [
-//           {
-//             columnId: 'column3-2',
-//             columnName: '字段3-2'
-//           },
-//           {
-//             columnId: 'column3-3',
-//             columnName: '字段3-3'
-//           }
-//         ]
-//       }
-//     ]
-//   }
-// ]
+const exampleLineData = [
+  {
+    tableIdName: '表1', // 表的名字
+    tableId: 'table1', // 表的ID
+    tableChunk: [ // 表的分块列表
+      {
+        ChunkId: 'chunk1-1', // 分块集合的id
+        ChunkName: 'chunk1-1', // 分块集合的名字
+        relationChunkId: ['chunk2-2', 'chunk3-2'], // 与分块相关联的分块Id,
+        ChunkList: [ // 分块内容
+          {
+            columnId: 'column1-1',
+            columnName: '字段1-1'
+          }
+        ]
+      },
+      {
+        ChunkId: 'chunk1-2',
+        ChunkName: 'chunk1-2',
+        relationChunkId: ['chunk2-1', 'chunk3-1'],
+        ChunkList: [
+          {
+            columnId: 'column1-2',
+            columnName: '字段1-2'
+          },
+          {
+            columnId: 'column1-3',
+            columnName: '字段1-3'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    tableIdName: '表2',
+    tableId: 'table2',
+    tableChunk: [
+      {
+        ChunkId: 'chunk2-1',
+        ChunkName: 'chunk2-1',
+        relationChunkId: ['chunk1-2', 'chunk3-1'],
+        ChunkList: [
+          {
+            columnId: 'column2-1',
+            columnName: '字段2-1'
+          }
+        ]
+      },
+      {
+        ChunkId: 'chunk2-2',
+        ChunkName: 'chunk2-2',
+        relationChunkId: ['chunk1-1'],
+        ChunkList: [
+          {
+            columnId: 'column2-2',
+            columnName: '字段2-2'
+          },
+          {
+            columnId: 'column2-3',
+            columnName: '字段2-3'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    tableIdName: '表3',
+    tableId: 'table3',
+    tableChunk: [
+      {
+        ChunkId: 'chunk3-1',
+        ChunkName: 'chunk3-1',
+        relationChunkId: ['chunk1-2', "chunk2-1"],
+        ChunkList: [
+          {
+            columnId: 'column3-1',
+            columnName: '字段3-1'
+          }
+        ]
+      },
+      {
+        ChunkId: 'chunk3-2',
+        ChunkName: 'chunk3-2',
+        relationChunkId: ['chunk1-1'],
+        ChunkList: [
+          {
+            columnId: 'column3-2',
+            columnName: '字段3-2'
+          },
+          {
+            columnId: 'column3-3',
+            columnName: '字段3-3'
+          }
+        ]
+      }
+    ]
+  }
+]
 
 import React, { PureComponent } from 'react'
 import * as d3 from 'd3'
@@ -122,6 +122,7 @@ class D3RelationLineChart extends PureComponent {
     setTimeout(() => {
 
       let refsLabel = Object.keys(this.refs)
+      console.log('refsLabel', refsLabel)
       refsLabel.splice(refsLabel.findIndex(item => item == 'ContentBox'), 1)
 
       const lineDataAux = [] // 连线数据
@@ -133,7 +134,7 @@ class D3RelationLineChart extends PureComponent {
       console.log('ContentBoxRect------', initViewWidth)
 
       for (let item of refsLabel) { // 循环所有的ChunkId
-        for (let tableItem of this.props.lineData) { // 循环所有的数据
+        for (let tableItem of exampleLineData) { // 循环所有的数据
           for (let chunkItem of tableItem.tableChunk) { // 循环所有的表块
             if (chunkItem.ChunkId == item) { // 找到ChunkId的表块详情
               let rect = this.refs[item].getBoundingClientRect()
@@ -200,11 +201,11 @@ class D3RelationLineChart extends PureComponent {
           lineChartBoxLeft: ((res.currentTarget.visualViewport.width - initViewWidth) / 2) + 'px'
         })
       })
-    }, 0)
+    }, 1000)
   }
 
   ContentTem = () => { // 内容模板
-    const contentDataLable = this.props.lineData // exampleLineData
+    const contentDataLable = exampleLineData
     const chunkItem = (data) => {
       return data.map(item => { return <div key={item.columnId}>{item.columnName}</div> })
     }
