@@ -16,12 +16,12 @@ const router = [
     name: 'CodeMirror',
     transKey: 'CodeMirror',
     path: '/app/CodeMirror',
-    component: React.lazy(() => import('@src/views/DashBoard')),
+    component: React.lazy(() => import('@src/views/CodeMirror')),
     routeProps: {
       
       
     },
-    permKey: 'dashBoard',
+    permKey: 'CodeMirror',
     children: []
   },
 
