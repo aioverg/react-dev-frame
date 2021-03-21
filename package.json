@@ -1,5 +1,5 @@
 {
-  "name": "feiu-bi",
+  "name": "feiu-app",
   "version": "0.0.1",
   "description": "",
   "repository": {
@@ -36,6 +36,7 @@
     "autoprefixer": "9.3.1",
     "axios": "^0.19.0",
     "cf-mock-server": "^1.0.14",
+    "codemirror": "^5.60.0",
     "d3": "^6.5.0",
     "d3-tip": "^0.9.1",
     "enzyme": "3.1.0",

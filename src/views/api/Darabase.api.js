@@ -2,7 +2,7 @@
  * 数据准备模块接口
  */
 import basicService from '@comm/js/request'
-const addUrl = '/bi'
+const addUrl = '/app'
 
 
 // 包、分组的增删改查

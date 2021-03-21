@@ -1,14 +1,11 @@
-import React, { PureComponent, Fragment, lazy, Suspense } from 'react'
+import React, { PureComponent, Fragment, Suspense } from 'react'
 import { Switch, withRouter, useHistory } from 'react-router-dom'
-import { Layout } from 'antd'
 import HeaderOne from '@src/components/layout/Header/Header'
-import Footer from '@src/components/layout/Footer/Footer'
-import styles from './index.less'
 import { getCookie } from '@utils/handleCookie'
 import { connect } from 'react-redux'
-import router, {RouteWithSubRoutes} from '@src/router/router'
-import {setAxiosToken} from '@src/utils/handleAxios'
-import {setPermission, noPermisson} from '@src/redux/actions'
+import router, { RouteWithSubRoutes } from '@src/router/router'
+import { setAxiosToken } from '@src/utils/handleAxios'
+import { setPermission, noPermisson } from '@src/redux/actions'
 /**
  * app主页面布局
  */
@@ -21,12 +18,11 @@ class Home extends PureComponent {
     }
   }
 
-  componentDidMount () { // 检查是否需要登录,若登录跳转到制定路由页，否则跳转到登录页
+  componentDidMount() { // 检查是否需要登录,若登录跳转到制定路由页，否则跳转到登录页
     const permissionFlag = true // 是否需要权限
     const { dispatch } = this.props
     const token = getCookie('feiu_token')
     const { history } = this.props
-    console.log('------------', this.props)
     this.routerGuard()
     if (token) {
       setAxiosToken(token) // 为 axios 的请求加上token
@@ -38,7 +34,6 @@ class Home extends PureComponent {
       }
     } else {
       // 转跳登陆页面
-      
       history.push("/login")
     }
   }
@@ -65,7 +60,7 @@ class Home extends PureComponent {
     });
   }
 
-  render () {
+  render() {
     const { collapsed, routes } = this.state
     const { history, match, menuList } = this.props
     const siderProps = {
@@ -73,26 +68,22 @@ class Home extends PureComponent {
       history,
       menuList
     }
-    console.log('routes-----', this.props)
     return (
-      <Layout className={styles.app}>
+      <div>
         <HeaderOne {...siderProps} collapsed={collapsed} history={history} toggle={this.toggle} />
-        <Layout>
-          <Layout.Content className={styles.content}>
-            <Suspense fallback={<div>Loading...</div>}>
-              <Fragment>
-                <Switch>
-                  {router.map(item => {
-                    return(<RouteWithSubRoutes key={item.name} {...item} />)
-                  })}
-                </Switch>
-              </Fragment>
-            </Suspense>
-          </Layout.Content>
-          <Footer />
-        </Layout>
-      </Layout>
-    );
+        <div>
+          <Suspense fallback={<div>Loading...</div>}>
+            <Fragment>
+              <Switch>
+                {router.map(item => {
+                  return (<RouteWithSubRoutes key={item.name} {...item} />)
+                })}
+              </Switch>
+            </Fragment>
+          </Suspense>
+        </div>
+      </div>
+    )
   }
 }
 

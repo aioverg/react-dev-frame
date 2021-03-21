@@ -1,5 +1,11 @@
 import React, { PureComponent, useState  } from 'react'
 import treeData from '@src/comm/js/tree'
+import CodeMirror from 'codemirror'
+import 'codemirror/lib/codemirror.css'
+import 'codemirror/mode/sql/sql'
+import 'codemirror/addon/hint/show-hint.css'
+import 'codemirror/addon/hint/sql-hint.js'
+import 'codemirror/addon/hint/show-hint.js'
 
 
 class Catalog extends PureComponent {
@@ -8,7 +14,7 @@ class Catalog extends PureComponent {
     this.state = {
       treeData: treeData,
       ex: 'hello',
-      graph: null
+      codeMirrorObj: null
     }
   }
   OneTem = (props) => {
@@ -21,16 +27,34 @@ class Catalog extends PureComponent {
       </div>
     )
   }
-  addTem = () => {
-    const a = [1,2,3]
-    return(
-      <div>
-        组件
-        {a.map(item => {
-          return <this.OneTem key={item} props={item} /> // this.oneTem(item)
-        })}
-      </div>
-    )
+  onClick = () => {
+    const {codeMirrorObj} = this.state
+    const code = codeMirrorObj.getValue()
+    console.log(99999, code)
+    
+  }
+  codeMirror = (ref) => {
+    const codeMirrorObj = CodeMirror(ref, {
+      value: "select * from test where id='${abc}';",
+      mode:  "sql",
+      extraKeys: {"Ctrl": "autocomplete"}
+    });
+    if(ref){
+      ref.addEventListener('cursorActivity', () => {
+        ref.showHint()
+      })
+    }
+    
+    this.setState({
+      codeMirrorObj: codeMirrorObj,
+      codeMirrorRef: ref,
+    })
+  }
+  componentWillUnmount() {
+    const {codeMirrorRef} = this.state
+    codeMirrorRef.removeEventListener('cursorActivity', () => {
+      codeMirrorRef.showHint()
+    })
   }
 
 
@@ -38,8 +62,8 @@ class Catalog extends PureComponent {
     return (
       <>
         <h2 style={{ textAlign: 'center', fontSize: '20px' }}>首页111111</h2>
-        <div id="container">
-          {this.addTem()}
+        <button onClick={this.onClick}>点击</button>
+        <div id="container" style={{width: '500px', height: '500px'}} ref={this.codeMirror}>
         </div>
       </>
     )

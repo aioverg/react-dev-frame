@@ -1,13 +1,47 @@
 import React, { PureComponent } from 'react'
-import { Layout, Avatar, Popover } from 'antd'
-import styles from './HeaderOne.less'
 import {Link} from 'react-router-dom'
 import { getCookie, clearCookie } from '@utils/handleCookie'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+const HeaderBox = styled.div`
+  padding: 0 16px;
+  height: 48px;
+  background: #001529;
+  box-shadow: 0px 0px 10px 0px rgba(44, 64, 95, 0.15);
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+const LogoBox = styled.div`
+  color: rgba(255, 255, 255, 0.8);
+  height: 100%;
+  display: flex;
+  align-items: center;
+`
+const MenuBox = styled.div`
+  flex-grow: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`
 const MenuItem = styled.span`
-  color: '#ffffff'
+  padding: 0 10px;
+  color: rgba(255, 255, 255, 0.8);
+`
+const UserBox = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+`
+const UserItem = styled.div`
+  padding: 0 8px;
+  color: rgba(255, 255, 255, 0.8);
+`
+const Line = styled.span`
+  border-left: 1px solid #ffffff;
+  height: 16px;
 `
 
 class Header extends PureComponent {
@@ -32,50 +66,37 @@ class Header extends PureComponent {
     history.push('/login')
   }
   
-  UserTem = () => { // 用户信息模板
-    return (
-      <div>
-        <div onClick={this.logout}>退出</div>
-      </div>
-    )
-  }
-
   render () {
-    const username = sessionStorage.getItem('username') || '用户名写死的'
+    const username = sessionStorage.getItem('username') || 'admin'
     const {permissions} = this.props
     return (
-      <Layout.Header className={styles.header}>
+      <HeaderBox>
         {/* logo */}
-        <div className={styles.logo}>
-          <img src="src/comm/img/logo.png" style={{ width: '35px', height: '35px' }} />
-          <span className={styles.name}>FE-IU BI</span>
-          <span className={styles.line}></span>
-        </div>
+        <LogoBox>
+          <span style={{paddingRight: '10px'}}>react-dev-frame</span>
+          <Line />
+        </LogoBox>
 
         {/* 菜单 */}
-        <div className={styles.menu}>
+        <MenuBox>
           {permissions.existMenu.map(item => {
             return (
-              <div className={styles.menuItem} key={item.path}>
+              <div key={item.path}>
               <Link to={item.path}>
-                <span style={{color: 'rgba(255, 255, 255, 0.8)'}}>{item.name}</span>
+                <MenuItem>{item.name}</MenuItem>
               </Link>
             </div>
             )
           })}
-        </div>)
+        </MenuBox>
 
         {/* 用户信息 */}
-        <div className={styles.user}>
-          <Avatar size={24} style={{ backgroundColor: '#597EF7', fontSize: '9px' }}>{username}</Avatar>
-          <Popover
-            content={this.UserTem()}
-            trigger="click"
-          >
-            <span className={styles.userName}>{username}</span>
-          </Popover>
-        </div>
-      </Layout.Header>
+        <UserBox>
+          <Line />
+          <UserItem>{username}</UserItem>
+          <UserItem onClick={this.logout}>退出</UserItem>
+        </UserBox>
+      </HeaderBox>
     )
   }
 }

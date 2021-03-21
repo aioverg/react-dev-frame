@@ -232,14 +232,14 @@ module.exports = (env, argv) => { //
         //     '^/feiu_api': '/feiu_api' // 因为 服务器环境有对应的ng配置
         //   }
         // },
-        '/bi': {
+        '/app': {
           target: 'http://172.16.10.137:8080/', // 马成
           // target: 'http://172.16.10.115:8080/', // 李朋朋
           // target: 'http://172.16.0.133:7773/',
           changeOrigin: true,
           secure: false, // 接受运行在 HTTPS 上，且使用了无效证书的后端服务器
           pathRewrite: {
-            '^/bi': '' // 因为 服务器环境有对应的ng配置
+            '^/app': '' // 因为 服务器环境有对应的ng配置
           }
         }
       },

@@ -3,7 +3,7 @@
  */
 
 import basicService from '@comm/js/request'
-const addUrl = '/bi'
+const addUrl = '/app'
 
 // 数据连接管理
 function getConnectList (params) { // 数据连接列表

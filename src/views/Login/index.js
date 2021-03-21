@@ -22,7 +22,7 @@ class Login extends PureComponent {
       console.log(res)
       if (res.data.code == 200) {
         setCookie('feiu_token', res.data.data.token) // 设置cookie, 保存登录信息
-        history.push('/bi/home')
+        history.push('/app/home')
       }
     })
   }

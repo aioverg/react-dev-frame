@@ -34,7 +34,7 @@ class System extends PureComponent {
     const {permissions} = this.props
     let menuList = {}
     menuList = permissions.existMenu.find(item => {
-      return item.path == '/bi/system'
+      return item.path == '/app/system'
     })
     const menuItem = (data) => {
       
