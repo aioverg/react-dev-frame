@@ -20,7 +20,7 @@ const envConfig = require('./my.env.config') // 读取 env.***.json 中的内容
 const target = 'https://dev3.fe-iu.com/' // 接口地址
 
 const htmlPlugin = new HtmlWebpackPlugin({
-  title: 'FEIU-BI',
+  title: 'react-dev-frame',
   template: path.join(__dirname, 'public/index.html'),
   filename: './index.html'
 })

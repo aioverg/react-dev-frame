@@ -16,7 +16,7 @@
 
 ## 初始化项目
 ```bash
-$ npm i FEIU-BI -g
+$ npm i react-dev-frame -g
 $ cfe init react
 ```
 
